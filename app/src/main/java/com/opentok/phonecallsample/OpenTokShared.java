@@ -5,15 +5,17 @@ import android.opengl.GLSurfaceView;
 import android.view.View;
 
 import com.opentok.android.BaseVideoRenderer;
+import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
 import com.opentok.android.Session;
+import com.opentok.android.Stream;
 
 /**
  * Created by rpc on 13/02/2018.
  */
 
-public class OpenTokShared {
-    
+public class OpenTokShared implements Session.SessionListener {
+
     public static final String APIKEY = "";
     public static final String TOKEN = "";
     public static final String SESSION_ID = "";
@@ -29,10 +31,12 @@ public class OpenTokShared {
 
     private Session session;
     private Publisher publisher;
+    private boolean sessionIsConnected = false;
 
     public void connectToSession(Context context) {
         session = new Session.Builder(context, APIKEY, SESSION_ID).build();
         session.connect(TOKEN);
+        session.setSessionListener(this);
     }
 
     public void createPublisher(Context context, boolean startPreview) {
@@ -45,6 +49,10 @@ public class OpenTokShared {
         if (startPreview) {
             publisher.startPreview();
         }
+
+        if (session != null && sessionIsConnected) {
+            session.publish(publisher);
+        }
     }
 
     public View getPublisherView() {
@@ -55,4 +63,31 @@ public class OpenTokShared {
     }
 
 
+    @Override
+    public void onConnected(Session session) {
+        sessionIsConnected = true;
+        if (publisher != null) {
+            session.publish(publisher);
+        }
+    }
+
+    @Override
+    public void onDisconnected(Session session) {
+        sessionIsConnected = false;
+    }
+
+    @Override
+    public void onStreamReceived(Session session, Stream stream) {
+
+    }
+
+    @Override
+    public void onStreamDropped(Session session, Stream stream) {
+
+    }
+
+    @Override
+    public void onError(Session session, OpentokError opentokError) {
+
+    }
 }
