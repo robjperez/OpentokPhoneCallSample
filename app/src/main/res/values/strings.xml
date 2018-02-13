@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PhoneCallSample</string>
+    <string name="title_activity_incoming_call">IncomingCallActivity</string>
+    <string name="title_activity_call">CallActivity</string>
+</resources>

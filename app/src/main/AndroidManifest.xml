@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.opentok.phonecallsample">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".IncomingCallActivity"
+            android:label="@string/title_activity_incoming_call"
+            android:screenOrientation="sensorPortrait"
+            android:showOnLockScreen="true" />
+
+        <service
+            android:name=".CallReceiverService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.opentok.phonecallsample.CallReceiverService" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".CallActivity"
+            android:label="@string/title_activity_call"></activity>
+    </application>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+</manifest>
