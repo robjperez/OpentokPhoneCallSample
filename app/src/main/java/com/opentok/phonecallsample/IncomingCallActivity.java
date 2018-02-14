@@ -19,15 +19,10 @@ public class IncomingCallActivity extends Activity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-
-        ((FrameLayout)findViewById(R.id.publisher_container)).addView(OpenTokShared.getInstance().getPublisherView());
-        ((FrameLayout)findViewById(R.id.subscriber_container)).addView(OpenTokShared.getInstance().getSubscriberView());
     }
 
     @Override
     protected void onPause() {
-        ((FrameLayout)findViewById(R.id.publisher_container)).removeAllViews();
-        ((FrameLayout)findViewById(R.id.publisher_container)).removeAllViews();
         super.onPause();
     }
 

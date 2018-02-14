@@ -11,15 +11,19 @@ import com.opentok.android.Session;
 import com.opentok.android.Stream;
 import com.opentok.android.Subscriber;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by rpc on 13/02/2018.
  */
 
 public class OpenTokShared implements Session.SessionListener {
 
-    public static final String APIKEY = "";
-    public static final String TOKEN = "";
-    public static final String SESSION_ID = "";
+    public interface OpenTokListener {
+        void subscriberConnected();
+    }
+
 
 
     private static OpenTokShared instance;
@@ -35,6 +39,8 @@ public class OpenTokShared implements Session.SessionListener {
     private Subscriber subscriber;
     private boolean sessionIsConnected = false;
     private Context sessionContext;
+    private List<OpenTokListener> listeners = new ArrayList<>();
+
 
     public void connectToSession(Context context) {
         sessionContext = context;
@@ -73,6 +79,17 @@ public class OpenTokShared implements Session.SessionListener {
         return null;
     }
 
+    public void addOpenTokListener(OpenTokListener listener) {
+        listeners.add(listener);
+
+        if (subscriber != null) {
+            listener.subscriberConnected();
+        }
+    }
+
+    public  void removeOpenTokListener(OpenTokListener listener) {
+        listeners.remove(listener);
+    }
 
     @Override
     public void onConnected(Session session) {
@@ -93,6 +110,10 @@ public class OpenTokShared implements Session.SessionListener {
         subscriber.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
                 BaseVideoRenderer.STYLE_VIDEO_FILL);
         session.subscribe(subscriber);
+
+        for (OpenTokListener l : listeners) {
+            l.subscriberConnected();
+        }
     }
 
     @Override
