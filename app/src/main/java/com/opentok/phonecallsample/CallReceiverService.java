@@ -25,6 +25,9 @@ public class CallReceiverService extends Service {
     }
 
     public void notifyIncomingCall() {
+        OpenTokShared.getInstance().connectToSession(this);
+        OpenTokShared.getInstance().createPublisher(this, true);
+
         Intent incomingCallActivity = new Intent(this, IncomingCallActivity.class);
         startActivity(incomingCallActivity);
     }

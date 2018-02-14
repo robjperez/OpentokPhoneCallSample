@@ -10,6 +10,15 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:text="Someone is calling you..."
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"/>
+
         <FrameLayout
             android:id="@+id/subscriber_container"
             android:layout_width="fill_parent"

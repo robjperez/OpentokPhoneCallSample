@@ -9,6 +9,7 @@ import com.opentok.android.OpentokError;
 import com.opentok.android.Publisher;
 import com.opentok.android.Session;
 import com.opentok.android.Stream;
+import com.opentok.android.Subscriber;
 
 /**
  * Created by rpc on 13/02/2018.
@@ -31,9 +32,12 @@ public class OpenTokShared implements Session.SessionListener {
 
     private Session session;
     private Publisher publisher;
+    private Subscriber subscriber;
     private boolean sessionIsConnected = false;
+    private Context sessionContext;
 
     public void connectToSession(Context context) {
+        sessionContext = context;
         session = new Session.Builder(context, APIKEY, SESSION_ID).build();
         session.connect(TOKEN);
         session.setSessionListener(this);
@@ -62,6 +66,13 @@ public class OpenTokShared implements Session.SessionListener {
         return null;
     }
 
+    public View getSubscriberView() {
+        if (subscriber != null) {
+            return subscriber.getView();
+        }
+        return null;
+    }
+
 
     @Override
     public void onConnected(Session session) {
@@ -78,7 +89,10 @@ public class OpenTokShared implements Session.SessionListener {
 
     @Override
     public void onStreamReceived(Session session, Stream stream) {
-
+        subscriber = new Subscriber.Builder(sessionContext, stream).build();
+        subscriber.getRenderer().setStyle(BaseVideoRenderer.STYLE_VIDEO_SCALE,
+                BaseVideoRenderer.STYLE_VIDEO_FILL);
+        session.subscribe(subscriber);
     }
 
     @Override
