@@ -1,3 +1,7 @@
+### DISCLAIMER
+
+This sample is in its very early stages and still Work in Progress. Use it at your own risk ;)
+
 Opentok Phone Call sample
 =========================
 
